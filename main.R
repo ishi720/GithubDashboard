@@ -80,15 +80,29 @@ analyze_user_repos <- function(username) {
 }
 
 # =============================================================================
+# カラーパレット生成関数
+# =============================================================================
+
+generate_colors <- function(n) {
+  if (n <= 12) {
+    return(RColorBrewer::brewer.pal(max(3, n), "Set3"))
+  } else {
+    # 12色を超える場合はSet3を拡張して生成
+    base_colors <- RColorBrewer::brewer.pal(12, "Set3")
+    colorRampPalette(base_colors)(n)
+  }
+}
+
+# =============================================================================
 # グラフ作成関数
 # =============================================================================
 
-# 横棒グラフ
+# 横棒グラフ（全言語表示）
 create_horizontal_bar <- function(df, title) {
-  df_top <- head(df, 10)
-  df_top$language <- factor(df_top$language, levels = rev(df_top$language))
+  df$language <- factor(df$language, levels = rev(df$language))
+  colors <- generate_colors(nrow(df))
   
-  ggplot(df_top, aes(x = language, y = bytes, fill = language)) +
+  ggplot(df, aes(x = language, y = bytes, fill = language)) +
     geom_bar(stat = "identity") +
     geom_text(aes(label = paste0(scales::label_bytes()(bytes), " (", 
                                  round(percentage, 1), "%)")),
@@ -96,7 +110,7 @@ create_horizontal_bar <- function(df, title) {
     coord_flip() +
     scale_y_continuous(labels = scales::label_bytes(),
                        expand = expansion(mult = c(0, 0.3))) +
-    scale_fill_brewer(palette = "Set3") +
+    scale_fill_manual(values = colors) +
     labs(title = title, x = "", y = "コード量") +
     theme_minimal() +
     theme(
@@ -122,13 +136,15 @@ create_pie_chart <- function(df, title) {
     arrange(desc(bytes)) %>%
     mutate(ypos = cumsum(percentage) - 0.5 * percentage)
   
+  colors <- generate_colors(nrow(df_top))
+  
   ggplot(df_top, aes(x = "", y = percentage, fill = language)) +
     geom_bar(stat = "identity", width = 1, color = "white") +
     coord_polar("y", start = 0) +
     geom_text(aes(y = ypos, label = ifelse(percentage > 3, 
                                            paste0(round(percentage, 1), "%"), "")),
               color = "black", size = 3.5) +
-    scale_fill_brewer(palette = "Set3") +
+    scale_fill_manual(values = colors) +
     labs(title = title, fill = "言語") +
     theme_void() +
     theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
@@ -163,15 +179,25 @@ main <- function() {
   # グラフを作成して保存
   cat("\nグラフを作成中...\n")
   
-  p1 <- create_horizontal_bar(df, paste0(user, " の言語別コード量"))
-  ggsave("./Documents/language_bar.png", p1, width = 10, height = 6, dpi = 150)
+  # 出力ディレクトリの設定と作成
+  output_dir <- file.path(getwd(), "Documents")
+  if (!dir.exists(output_dir)) {
+    dir.create(output_dir, recursive = TRUE)
+  }
+  cat("出力先:", output_dir, "\n")
   
+  # 横棒グラフ（言語数に応じて高さを調整）
+  p1 <- create_horizontal_bar(df, paste0(user, " の言語別コード量"))
+  bar_height <- max(6, nrow(df) * 0.5)
+  ggsave(file.path(output_dir, "language_bar.png"), p1, width = 10, height = bar_height, dpi = 150)
+  
+  # 円グラフ
   p2 <- create_pie_chart(df, paste0(user, " の言語構成比"))
-  ggsave("./Documents/language_pie.png", p2, width = 8, height = 8, dpi = 150)
+  ggsave(file.path(output_dir, "language_pie.png"), p2, width = 8, height = 8, dpi = 150)
   
   cat("\n保存完了:\n")
-  cat("  - language_bar.png\n")
-  cat("  - language_pie.png\n")
+  cat("  -", file.path(output_dir, "language_bar.png"), "\n")
+  cat("  -", file.path(output_dir, "language_pie.png"), "\n")
   
   print(p1)
   
