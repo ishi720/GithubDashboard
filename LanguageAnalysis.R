@@ -25,11 +25,27 @@ analyze_user_repos <- function(username) {
   cat("ユーザーのリポジトリを取得中:", username, "\n")
   
   tryCatch({
-    # ユーザーの公開リポジトリを取得
-    repos <- gh::gh("GET /users/{username}/repos",
-                    username = username,
-                    per_page = 100,
-                    .limit = Inf)
+    # 認証済みユーザー情報を取得
+    auth_user <- tryCatch({
+      gh::gh("GET /user")$login
+    }, error = function(e) NULL)
+    
+    # 認証済みユーザーと同じ場合は /user/repos を使用（プライベートリポジトリも取得可能）
+    # 異なる場合は /users/{username}/repos を使用（公開リポジトリのみ）
+    if (!is.null(auth_user) && tolower(auth_user) == tolower(username)) {
+      cat("認証済みユーザーとして取得（プライベートリポジトリ含む）\n")
+      repos <- gh::gh("GET /user/repos",
+                      visibility = "all",
+                      affiliation = "owner",
+                      per_page = 100,
+                      .limit = Inf)
+    } else {
+      cat("公開リポジトリのみ取得\n")
+      repos <- gh::gh("GET /users/{username}/repos",
+                      username = username,
+                      per_page = 100,
+                      .limit = Inf)
+    }
     
     cat("見つかったリポジトリ数:", length(repos), "\n\n")
     
@@ -42,7 +58,9 @@ analyze_user_repos <- function(username) {
         next
       }
       
-      cat("  -", repo$name, "\n")
+      # プライベートリポジトリかどうかを表示
+      visibility <- if (isTRUE(repo$private)) "[Private]" else "[Public]"
+      cat("  -", repo$name, visibility, "\n")
       
       langs <- tryCatch({
         gh::gh("GET /repos/{owner}/{repo}/languages",
