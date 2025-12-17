@@ -27,7 +27,7 @@ renv::restore()
 ## 使用しているプログラミング言語（バイト数）
 
 ```r
-source("main.R")
+source("LanguageAnalysis.R")
 ```
 
 <img width="1500" height="1575" alt="language_bar" src="https://raw.githubusercontent.com/ishi720/R-GithubAnalysis/refs/heads/main/Documents/language_bar.png" />
