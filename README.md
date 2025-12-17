@@ -45,7 +45,7 @@ source("CommitAnalysis.R")
 ## Issueの作成と解決
 
 ```r
-source(IssuesAnalysis.R)
+source("IssuesAnalysis.R")
 ```
 
 <img width="1800" height="900" alt="issues_by_month_line" src="https://raw.githubusercontent.com/ishi720/R-GithubAnalysis/refs/heads/main/Documents/issues_by_month_line.png" />
