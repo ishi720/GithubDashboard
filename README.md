@@ -39,3 +39,12 @@ source("CommitAnalysis.R")
 ```
 
 <img width="1800" height="900" alt="commits_by_month_language" src="https://github.com/user-attachments/assets/7342eb3b-31fa-41d3-a2d1-f52b77983f04" />
+
+## Issueの作成と解決
+
+```r
+source(IssuesAnalysis.R)
+```
+
+<img width="1800" height="900" alt="issues_by_month_line" src="https://github.com/user-attachments/assets/fc4a0bc3-c3c0-47c9-8163-40860ddf321c" />
+
