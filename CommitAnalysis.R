@@ -71,7 +71,14 @@ get_user_commits <- function(username, years = 2) {
         cat(" (", length(commits), "commits)\n")
         
         for (commit in commits) {
-          commit_date <- as.POSIXct(commit$commit$author$date, format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+          # UTCで取得してから日本時間に変換
+          commit_date_utc <- as.POSIXct(commit$commit$author$date, format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+          commit_date <- with_tz(commit_date_utc, tzone = "Asia/Tokyo")
+          
+          # 曜日を数字で取得（0=日曜, 1=月曜, ..., 6=土曜）し、英語名に変換
+          day_num <- as.integer(format(commit_date, "%w"))
+          day_names <- c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+          day_of_week <- day_names[day_num + 1]
           
           commit_data <- data.frame(
             repo = repo$name,
@@ -79,7 +86,8 @@ get_user_commits <- function(username, years = 2) {
             date = as.Date(commit_date),
             year = format(commit_date, "%Y"),
             month = format(commit_date, "%Y-%m"),
-            day_of_week = weekdays(commit_date),
+            day_of_week = day_of_week,
+            hour = as.integer(format(commit_date, "%H")),
             stringsAsFactors = FALSE
           )
           
@@ -138,6 +146,58 @@ summarize_by_month_language <- function(commits_df, top_n = 5) {
     group_by(month, language) %>%
     summarise(commits = n(), .groups = "drop") %>%
     arrange(month)
+}
+
+# 曜日別コミット数
+summarize_by_day_of_week <- function(commits_df) {
+  # 曜日の順序を定義
+  day_order <- c("月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日")
+  day_order_en <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+  
+  commits_df %>%
+    group_by(day_of_week) %>%
+    summarise(commits = n(), .groups = "drop") %>%
+    mutate(
+      day_of_week = factor(day_of_week, levels = day_order_en),
+      percentage = commits / sum(commits) * 100
+    ) %>%
+    arrange(day_of_week)
+}
+
+# 時間帯別コミット数
+summarize_by_hour <- function(commits_df) {
+  commits_df %>%
+    group_by(hour) %>%
+    summarise(commits = n(), .groups = "drop") %>%
+    complete(hour = 0:23, fill = list(commits = 0)) %>%
+    mutate(percentage = commits / sum(commits) * 100)
+}
+
+# 曜日×時間帯のヒートマップ用データ
+summarize_by_day_hour <- function(commits_df) {
+  day_order_en <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+  
+  # 先に曜日をファクター化
+  commits_df <- commits_df %>%
+    mutate(day_of_week = factor(day_of_week, levels = day_order_en))
+  
+  # 集計
+  result <- commits_df %>%
+    group_by(day_of_week, hour) %>%
+    summarise(commits = n(), .groups = "drop")
+  
+  # 全ての曜日×時間の組み合わせを作成
+  all_combinations <- expand.grid(
+    day_of_week = factor(day_order_en, levels = day_order_en),
+    hour = 0:23
+  )
+  
+  # マージして欠損値を0で埋める
+  result <- all_combinations %>%
+    left_join(result, by = c("day_of_week", "hour")) %>%
+    mutate(commits = ifelse(is.na(commits), 0, commits))
+  
+  return(result)
 }
 
 # =============================================================================
@@ -253,6 +313,59 @@ create_monthly_language_stack <- function(df, title) {
     )
 }
 
+# 曜日別コミット数 棒グラフ
+create_day_of_week_bar <- function(df, title) {
+  # 曜日ラベルを日本語に
+  day_labels <- c("Monday" = "月", "Tuesday" = "火", "Wednesday" = "水", 
+                  "Thursday" = "木", "Friday" = "金", "Saturday" = "土", "Sunday" = "日")
+  
+  ggplot(df, aes(x = day_of_week, y = commits, fill = day_of_week)) +
+    geom_bar(stat = "identity") +
+    geom_text(aes(label = commits), vjust = -0.5, size = 4) +
+    scale_x_discrete(labels = day_labels) +
+    scale_fill_brewer(palette = "Set2") +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+    labs(title = title, x = "曜日", y = "コミット数") +
+    theme_minimal() +
+    theme(
+      legend.position = "none",
+      plot.title = element_text(hjust = 0.5, face = "bold", size = 14)
+    )
+}
+
+# 時間帯別コミット数 棒グラフ
+create_hourly_bar <- function(df, title) {
+  ggplot(df, aes(x = factor(hour), y = commits)) +
+    geom_bar(stat = "identity", fill = "#4A90D9", alpha = 0.8) +
+    geom_text(aes(label = ifelse(commits > 0, commits, "")), vjust = -0.5, size = 2.5) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+    labs(title = title, x = "時間帯", y = "コミット数") +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(hjust = 0.5, face = "bold", size = 14)
+    )
+}
+
+# 曜日×時間帯 ヒートマップ
+create_day_hour_heatmap <- function(df, title) {
+  day_labels <- c("Monday" = "月", "Tuesday" = "火", "Wednesday" = "水", 
+                  "Thursday" = "木", "Friday" = "金", "Saturday" = "土", "Sunday" = "日")
+  
+  ggplot(df, aes(x = factor(hour), y = day_of_week, fill = commits)) +
+    geom_tile(color = "white", size = 0.5) +
+    geom_text(aes(label = ifelse(commits > 0, commits, "")), 
+              color = "black", size = 2.5) +
+    scale_y_discrete(labels = day_labels, limits = rev(levels(df$day_of_week))) +
+    scale_fill_gradient(low = "#f7fbff", high = "#08519c",
+                        name = "コミット数") +
+    labs(title = title, x = "時間帯", y = "曜日") +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+      panel.grid = element_blank()
+    )
+}
+
 # =============================================================================
 # メイン処理
 # =============================================================================
@@ -281,6 +394,9 @@ main <- function() {
   lang_summary <- summarize_by_language(commits_df)
   month_summary <- summarize_by_month(commits_df)
   month_lang_summary <- summarize_by_month_language(commits_df, top_n = 5)
+  day_summary <- summarize_by_day_of_week(commits_df)
+  hour_summary <- summarize_by_hour(commits_df)
+  day_hour_summary <- summarize_by_day_hour(commits_df)
   
   # 結果を表示
   cat("\n===== 言語別コミット数 =====\n")
@@ -289,12 +405,18 @@ main <- function() {
   cat("\n===== 月別コミット数 =====\n")
   print(month_summary)
   
+  cat("\n===== 曜日別コミット数 =====\n")
+  print(day_summary)
+  
+  cat("\n===== 時間帯別コミット数 =====\n")
+  print(hour_summary)
+  
   cat("\n===== 総コミット数:", nrow(commits_df), "=====\n")
   
   # グラフを作成して保存
   cat("\nグラフを作成中...\n")
   
-  # 出力ディレクトリの設定と作成
+  # 出力ディレクトリの作成
   output_dir <- OUTPUT_DIR
   if (!dir.exists(output_dir)) {
     dir.create(output_dir, recursive = TRUE)
@@ -328,12 +450,30 @@ main <- function() {
   ggsave(file.path(output_dir, "commits_by_month_language.png"), p5, 
          width = 12, height = 6, dpi = 150)
   
+  # 曜日別コミット数
+  p6 <- create_day_of_week_bar(day_summary, paste0(user, " の曜日別コミット数"))
+  ggsave(file.path(output_dir, "commits_by_day_of_week.png"), p6,
+         width = 8, height = 6, dpi = 150)
+  
+  # 時間帯別コミット数
+  p7 <- create_hourly_bar(hour_summary, paste0(user, " の時間帯別コミット数"))
+  ggsave(file.path(output_dir, "commits_by_hour.png"), p7,
+         width = 12, height = 6, dpi = 150)
+  
+  # 曜日×時間帯 ヒートマップ
+  p8 <- create_day_hour_heatmap(day_hour_summary, paste0(user, " のコミット時間帯ヒートマップ"))
+  ggsave(file.path(output_dir, "commits_heatmap.png"), p8,
+         width = 14, height = 6, dpi = 150)
+  
   cat("\n保存完了:\n")
   cat("  -", file.path(output_dir, "commits_by_language_bar.png"), "\n")
   cat("  -", file.path(output_dir, "commits_by_language_pie.png"), "\n")
   cat("  -", file.path(output_dir, "commits_by_month_line.png"), "\n")
   cat("  -", file.path(output_dir, "commits_by_month_bar.png"), "\n")
   cat("  -", file.path(output_dir, "commits_by_month_language.png"), "\n")
+  cat("  -", file.path(output_dir, "commits_by_day_of_week.png"), "\n")
+  cat("  -", file.path(output_dir, "commits_by_hour.png"), "\n")
+  cat("  -", file.path(output_dir, "commits_heatmap.png"), "\n")
   
   # グラフを表示
   print(p1)
@@ -343,12 +483,18 @@ main <- function() {
     language_summary = lang_summary,
     month_summary = month_summary,
     month_language_summary = month_lang_summary,
+    day_summary = day_summary,
+    hour_summary = hour_summary,
+    day_hour_summary = day_hour_summary,
     plots = list(
       language_bar = p1,
       language_pie = p2,
       monthly_line = p3,
       monthly_bar = p4,
-      monthly_language = p5
+      monthly_language = p5,
+      day_of_week = p6,
+      hourly = p7,
+      heatmap = p8
     )
   ))
 }
