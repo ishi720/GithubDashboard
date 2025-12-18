@@ -44,6 +44,10 @@ source("CommitAnalysis.R")
 
 ## リポジトリの作成数
 
+```r
+source("Repoanalysis.R")
+```
+
 <img width="1800" height="900" alt="commits_by_month_language" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/repos_by_year.png" />
 
 
