@@ -12,8 +12,8 @@ GitHubユーザーのリポジトリを分析し、可視化するRスクリプ�
 1. リポジトリのクローン
 
 ```bash
-git clone git@github.com:ishi720/R-GithubAnalysis.git
-cd R-GithubAnalysis
+git clone git@github.com:ishi720/GithubDashboard.git
+cd GithubDashboard
 ```
 
 2. 依存パッケージのインストール
@@ -30,7 +30,7 @@ renv::restore()
 source("LanguageAnalysis.R")
 ```
 
-<img width="1500" height="1575" alt="language_bar" src="https://raw.githubusercontent.com/ishi720/R-GithubAnalysis/refs/heads/main/Documents/language_bar.png" />
+<img width="1500" height="1575" alt="language_bar" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/language_bar.png" />
 
 ## 月・曜日ごとのコミット数
 
@@ -38,13 +38,13 @@ source("LanguageAnalysis.R")
 source("CommitAnalysis.R")
 ```
 
-<img width="1800" height="900" alt="commits_by_month_language" src="https://raw.githubusercontent.com/ishi720/R-GithubAnalysis/refs/heads/main/Documents/commits_by_month_language.png" />
+<img width="1800" height="900" alt="commits_by_month_language" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/commits_by_month_language.png" />
 
-<img width="2100" height="900" alt="commits_heatmap" src="https://raw.githubusercontent.com/ishi720/R-GithubAnalysis/refs/heads/main/Documents/commits_heatmap.png" />
+<img width="2100" height="900" alt="commits_heatmap" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/commits_heatmap.png" />
 
 ## リポジトリの作成数
 
-<img width="1800" height="900" alt="commits_by_month_language" src="https://raw.githubusercontent.com/ishi720/R-GithubAnalysis/refs/heads/main/Documents/repos_by_year.png" />
+<img width="1800" height="900" alt="commits_by_month_language" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/repos_by_year.png" />
 
 
 ## Issueの作成と解決
@@ -53,5 +53,5 @@ source("CommitAnalysis.R")
 source("IssuesAnalysis.R")
 ```
 
-<img width="1800" height="900" alt="issues_by_month_line" src="https://raw.githubusercontent.com/ishi720/R-GithubAnalysis/refs/heads/main/Documents/issues_by_month_line.png" />
+<img width="1800" height="900" alt="issues_by_month_line" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/issues_by_month_line.png" />
 
