@@ -42,6 +42,11 @@ source("CommitAnalysis.R")
 
 <img width="2100" height="900" alt="commits_heatmap" src="https://raw.githubusercontent.com/ishi720/R-GithubAnalysis/refs/heads/main/Documents/commits_heatmap.png" />
 
+## リポジトリの作成数
+
+<img width="1800" height="900" alt="commits_by_month_language" src="https://raw.githubusercontent.com/ishi720/R-GithubAnalysis/refs/heads/main/Documents/repos_by_year.png" />
+
+
 ## Issueの作成と解決
 
 ```r
