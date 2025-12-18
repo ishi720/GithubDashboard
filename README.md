@@ -1,4 +1,4 @@
-# R-GithubAnalysis
+# GithubDashboard
 
 GitHubユーザーのリポジトリを分析し、可視化するRスクリプトです。
 
