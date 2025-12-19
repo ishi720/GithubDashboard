@@ -137,37 +137,6 @@ create_horizontal_bar <- function(df, title) {
     )
 }
 
-# 円グラフ
-create_pie_chart <- function(df, title) {
-  df_top <- head(df, 7)
-  
-  if (nrow(df) > 7) {
-    others <- data.frame(
-      language = "Others",
-      bytes = sum(df$bytes[8:nrow(df)]),
-      percentage = sum(df$percentage[8:nrow(df)])
-    )
-    df_top <- rbind(df_top, others)
-  }
-  
-  df_top <- df_top %>%
-    arrange(desc(bytes)) %>%
-    mutate(ypos = cumsum(percentage) - 0.5 * percentage)
-  
-  colors <- generate_colors(nrow(df_top))
-  
-  ggplot(df_top, aes(x = "", y = percentage, fill = language)) +
-    geom_bar(stat = "identity", width = 1, color = "white") +
-    coord_polar("y", start = 0) +
-    geom_text(aes(y = ypos, label = ifelse(percentage > 3, 
-                                           paste0(round(percentage, 1), "%"), "")),
-              color = "black", size = 3.5) +
-    scale_fill_manual(values = colors) +
-    labs(title = title, fill = "言語") +
-    theme_void() +
-    theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
-}
-
 # =============================================================================
 # メイン処理
 # =============================================================================
@@ -209,17 +178,12 @@ main <- function() {
   bar_height <- max(6, nrow(df) * 0.5)
   ggsave(file.path(output_dir, "language_bar.png"), p1, width = 10, height = bar_height, dpi = 150)
   
-  # 円グラフ
-  p2 <- create_pie_chart(df, paste0(user, " の言語構成比"))
-  ggsave(file.path(output_dir, "language_pie.png"), p2, width = 8, height = 8, dpi = 150)
-  
   cat("\n保存完了:\n")
   cat("  -", file.path(output_dir, "language_bar.png"), "\n")
-  cat("  -", file.path(output_dir, "language_pie.png"), "\n")
   
   print(p1)
   
-  return(list(data = df, bar = p1, pie = p2))
+  return(list(data = df, bar = p1))
 }
 
 # 実行

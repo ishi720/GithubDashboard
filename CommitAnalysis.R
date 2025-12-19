@@ -237,37 +237,6 @@ create_language_bar <- function(df, title) {
     )
 }
 
-# 言語別コミット数 円グラフ
-create_language_pie <- function(df, title) {
-  df_top <- head(df, 7)
-  
-  if (nrow(df) > 7) {
-    others <- data.frame(
-      language = "Others",
-      commits = sum(df$commits[8:nrow(df)]),
-      percentage = sum(df$percentage[8:nrow(df)])
-    )
-    df_top <- rbind(df_top, others)
-  }
-  
-  df_top <- df_top %>%
-    arrange(desc(commits)) %>%
-    mutate(ypos = cumsum(percentage) - 0.5 * percentage)
-  
-  colors <- generate_colors(nrow(df_top))
-  
-  ggplot(df_top, aes(x = "", y = percentage, fill = language)) +
-    geom_bar(stat = "identity", width = 1, color = "white") +
-    coord_polar("y", start = 0) +
-    geom_text(aes(y = ypos, label = ifelse(percentage > 3, 
-                                           paste0(round(percentage, 1), "%"), "")),
-              color = "black", size = 3.5) +
-    scale_fill_manual(values = colors) +
-    labs(title = title, fill = "言語") +
-    theme_void() +
-    theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
-}
-
 # 月別コミット数 折れ線グラフ
 create_monthly_line <- function(df, title) {
   ggplot(df, aes(x = month, y = commits, group = 1)) +
@@ -429,45 +398,39 @@ main <- function() {
   ggsave(file.path(output_dir, "commits_by_language_bar.png"), p1, 
          width = 10, height = bar_height, dpi = 150)
   
-  # 言語別コミット数 円グラフ
-  p2 <- create_language_pie(lang_summary, paste0(user, " の言語別コミット構成比"))
-  ggsave(file.path(output_dir, "commits_by_language_pie.png"), p2, 
-         width = 8, height = 8, dpi = 150)
-  
   # 月別コミット数 折れ線グラフ
-  p3 <- create_monthly_line(month_summary, paste0(user, " の月別コミット数推移"))
-  ggsave(file.path(output_dir, "commits_by_month_line.png"), p3, 
+  p2 <- create_monthly_line(month_summary, paste0(user, " の月別コミット数推移"))
+  ggsave(file.path(output_dir, "commits_by_month_line.png"), p2, 
          width = 12, height = 6, dpi = 150)
   
   # 月別コミット数 棒グラフ
-  p4 <- create_monthly_bar(month_summary, paste0(user, " の月別コミット数"))
-  ggsave(file.path(output_dir, "commits_by_month_bar.png"), p4, 
+  p3 <- create_monthly_bar(month_summary, paste0(user, " の月別コミット数"))
+  ggsave(file.path(output_dir, "commits_by_month_bar.png"), p3, 
          width = 12, height = 6, dpi = 150)
   
   # 月別・言語別 積み上げ棒グラフ
-  p5 <- create_monthly_language_stack(month_lang_summary, 
+  p4 <- create_monthly_language_stack(month_lang_summary, 
                                       paste0(user, " の月別・言語別コミット数"))
-  ggsave(file.path(output_dir, "commits_by_month_language.png"), p5, 
+  ggsave(file.path(output_dir, "commits_by_month_language.png"), p4, 
          width = 12, height = 6, dpi = 150)
   
   # 曜日別コミット数
-  p6 <- create_day_of_week_bar(day_summary, paste0(user, " の曜日別コミット数"))
-  ggsave(file.path(output_dir, "commits_by_day_of_week.png"), p6,
+  p5 <- create_day_of_week_bar(day_summary, paste0(user, " の曜日別コミット数"))
+  ggsave(file.path(output_dir, "commits_by_day_of_week.png"), p5,
          width = 8, height = 6, dpi = 150)
   
   # 時間帯別コミット数
-  p7 <- create_hourly_bar(hour_summary, paste0(user, " の時間帯別コミット数"))
-  ggsave(file.path(output_dir, "commits_by_hour.png"), p7,
+  p6 <- create_hourly_bar(hour_summary, paste0(user, " の時間帯別コミット数"))
+  ggsave(file.path(output_dir, "commits_by_hour.png"), p6,
          width = 12, height = 6, dpi = 150)
   
   # 曜日×時間帯 ヒートマップ
-  p8 <- create_day_hour_heatmap(day_hour_summary, paste0(user, " のコミット時間帯ヒートマップ"))
-  ggsave(file.path(output_dir, "commits_heatmap.png"), p8,
+  p7 <- create_day_hour_heatmap(day_hour_summary, paste0(user, " のコミット時間帯ヒートマップ"))
+  ggsave(file.path(output_dir, "commits_heatmap.png"), p7,
          width = 14, height = 6, dpi = 150)
   
   cat("\n保存完了:\n")
   cat("  -", file.path(output_dir, "commits_by_language_bar.png"), "\n")
-  cat("  -", file.path(output_dir, "commits_by_language_pie.png"), "\n")
   cat("  -", file.path(output_dir, "commits_by_month_line.png"), "\n")
   cat("  -", file.path(output_dir, "commits_by_month_bar.png"), "\n")
   cat("  -", file.path(output_dir, "commits_by_month_language.png"), "\n")
@@ -488,13 +451,12 @@ main <- function() {
     day_hour_summary = day_hour_summary,
     plots = list(
       language_bar = p1,
-      language_pie = p2,
-      monthly_line = p3,
-      monthly_bar = p4,
-      monthly_language = p5,
-      day_of_week = p6,
-      hourly = p7,
-      heatmap = p8
+      monthly_line = p2,
+      monthly_bar = p3,
+      monthly_language = p4,
+      day_of_week = p5,
+      hourly = p6,
+      heatmap = p7
     )
   ))
 }
