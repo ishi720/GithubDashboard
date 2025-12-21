@@ -1,0 +1,57 @@
+name: Monthly Dashboard Update
+
+on:
+  schedule:
+    # 毎月1日の午前9時（日本時間）に実行 = UTC 0:00
+    - cron: '0 0 1 * *'
+  workflow_dispatch:  # 手動実行も可能
+
+jobs:
+  update-dashboard:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.5.2'
+
+      - name: Setup renv
+        uses: r-lib/actions/setup-renv@v2
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
+
+      - name: Create output directory
+        run: mkdir -p Documents
+
+      - name: Run Language Analysis
+        run: Rscript LanguageAnalysis.R
+
+      - name: Run Commit Analysis
+        run: Rscript CommitAnalysis.R
+
+      - name: Run Repository Analysis
+        run: Rscript Repoanalysis.R
+
+      - name: Run Tag Analysis
+        run: Rscript TagAnalysis.R
+
+      - name: Run Issues Analysis
+        run: Rscript IssuesAnalysis.R
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add Documents/
+          git diff --staged --quiet || git commit -m "Monthly dashboard update - $(date +'%Y-%m-%d')"
+          git push
