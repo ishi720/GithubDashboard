@@ -22,31 +22,32 @@ jobs:
         with:
           r-version: '4.4.0'
 
-      - name: Setup renv
-        uses: r-lib/actions/setup-renv@v2
-
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
 
+      - name: Install R packages
+        run: |
+          Rscript -e 'install.packages(c("gh", "ggplot2", "dplyr", "scales", "RColorBrewer", "lubridate", "tidyr", "ggwordcloud"), repos = "https://cran.r-project.org")'
+
       - name: Create output directory
         run: mkdir -p Documents
 
       - name: Run Language Analysis
-        run: Rscript LanguageAnalysis.R
+        run: Rscript --vanilla LanguageAnalysis.R
 
       - name: Run Commit Analysis
-        run: Rscript CommitAnalysis.R
+        run: Rscript --vanilla CommitAnalysis.R
 
       - name: Run Repository Analysis
-        run: Rscript Repoanalysis.R
+        run: Rscript --vanilla Repoanalysis.R
 
       - name: Run Tag Analysis
-        run: Rscript TagAnalysis.R
+        run: Rscript --vanilla TagAnalysis.R
 
       - name: Run Issues Analysis
-        run: Rscript IssuesAnalysis.R
+        run: Rscript --vanilla IssuesAnalysis.R
 
       - name: Commit and push changes
         run: |
