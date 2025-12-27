@@ -43,6 +43,9 @@ jobs:
       - name: Run Repository Analysis
         run: Rscript --vanilla Repoanalysis.R
 
+      - name: Run RepoListExport Analysis
+        run: Rscript --vanilla RepoListExport.R
+
       - name: Run Tag Analysis
         run: Rscript --vanilla TagAnalysis.R
 
