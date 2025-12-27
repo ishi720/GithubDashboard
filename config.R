@@ -7,3 +7,6 @@ TARGET_USER <- "ishi720"
 
 # 出力ディレクトリ
 OUTPUT_DIR <- file.path(getwd(), "Documents")
+
+# プライベートリポジトリを含めるかどうか (TRUE: 含める, FALSE: 除外)
+INCLUDE_PRIVATE_REPOS <- FALSE
