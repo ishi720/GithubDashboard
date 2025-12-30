@@ -85,10 +85,29 @@ get_user_repos_detail <- function(username, include_private = FALSE) {
       }, error = function(e) character(0))
       
       if (length(topics) > 0) {
-        cat(" (", length(topics), "topics)\n")
+        cat(" (", length(topics), "topics)")
       } else {
-        cat(" (no topics)\n")
+        cat(" (no topics)")
       }
+      
+      # コミット数を取得
+      commit_count <- tryCatch({
+        # デフォルトブランチのコミット数を取得
+        default_branch <- if (!is.null(repo$default_branch)) repo$default_branch else "main"
+        all_commits <- gh::gh("GET /repos/{owner}/{repo}/commits",
+                              owner = username,
+                              repo = repo$name,
+                              sha = default_branch,
+                              per_page = 100,
+                              .limit = Inf)
+        length(all_commits)
+      }, error = function(e) 0)
+      
+      cat(" commits:", commit_count)
+      
+      # リポジトリサイズ（KB単位でAPIから取得済み）
+      repo_size_kb <- if (!is.null(repo$size)) repo$size else 0
+      cat(" size:", repo_size_kb, "KB\n")
       
       # リポジトリ情報を構築
       repo_info <- list(
@@ -97,7 +116,9 @@ get_user_repos_detail <- function(username, include_private = FALSE) {
         tags = if (length(topics) > 0) topics else list(),
         description = if (!is.null(repo$description)) repo$description else "",
         created_at = repo$created_at,
-        updated_at = repo$updated_at
+        updated_at = repo$updated_at,
+        commit_count = commit_count,
+        size_kb = repo_size_kb
       )
       
       repos_list[[length(repos_list) + 1]] <- repo_info
@@ -167,6 +188,14 @@ main <- function() {
   # サマリー表示
   cat("\n===== サマリー =====\n")
   cat("総リポジトリ数:", length(repos_list), "\n")
+  
+  # 総コミット数と総サイズを計算
+  total_commits <- sum(sapply(repos_list, function(r) r$commit_count))
+  total_size_kb <- sum(sapply(repos_list, function(r) r$size_kb))
+  total_size_mb <- round(total_size_kb / 1024, 2)
+  
+  cat("総コミット数:", total_commits, "\n")
+  cat("総サイズ:", total_size_kb, "KB (", total_size_mb, "MB)\n")
   cat("出力ファイル:", output_path, "\n")
   
   # 最初の数件をプレビュー表示
@@ -178,6 +207,8 @@ main <- function() {
     cat("    URL:", repo$url, "\n")
     cat("    Tags:", if (length(repo$tags) > 0) paste(repo$tags, collapse = ", ") else "(none)", "\n")
     cat("    Description:", if (nchar(repo$description) > 0) repo$description else "(none)", "\n")
+    cat("    Commits:", repo$commit_count, "\n")
+    cat("    Size:", repo$size_kb, "KB\n")
     cat("    Created:", repo$created_at, "\n")
     cat("    Updated:", repo$updated_at, "\n")
   }
