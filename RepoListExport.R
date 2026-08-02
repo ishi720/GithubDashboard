@@ -107,8 +107,12 @@ get_user_repos_detail <- function(username, include_private = FALSE) {
       
       # リポジトリサイズ（KB単位でAPIから取得済み）
       repo_size_kb <- if (!is.null(repo$size)) repo$size else 0
-      cat(" size:", repo_size_kb, "KB\n")
-      
+      cat(" size:", repo_size_kb, "KB")
+
+      # スター数（APIから取得済み）
+      stars <- if (!is.null(repo$stargazers_count)) repo$stargazers_count else 0
+      cat(" stars:", stars, "\n")
+
       # リポジトリ情報を構築
       repo_info <- list(
         name = repo$name,
@@ -118,7 +122,8 @@ get_user_repos_detail <- function(username, include_private = FALSE) {
         created_at = repo$created_at,
         updated_at = repo$updated_at,
         commit_count = commit_count,
-        size_kb = repo_size_kb
+        size_kb = repo_size_kb,
+        stars = stars
       )
       
       repos_list[[length(repos_list) + 1]] <- repo_info
@@ -209,6 +214,7 @@ main <- function() {
     cat("    Description:", if (nchar(repo$description) > 0) repo$description else "(none)", "\n")
     cat("    Commits:", repo$commit_count, "\n")
     cat("    Size:", repo$size_kb, "KB\n")
+    cat("    Stars:", repo$stars, "\n")
     cat("    Created:", repo$created_at, "\n")
     cat("    Updated:", repo$updated_at, "\n")
   }
