@@ -2,6 +2,10 @@
 
 GitHubユーザーのリポジトリを分析し、可視化するRスクリプトです。
 
+# バッジ
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/99f416fe7ac74d64a8bebfa7861c8da6)](https://app.codacy.com/gh/ishi720/GithubDashboard/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 # Windows環境セットアップ
 
 - R: 4.5.2
@@ -30,7 +34,7 @@ renv::restore()
 source("LanguageAnalysis.R")
 ```
 
-<img width="1500" height="1575" alt="language_bar" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/language_bar.png" />
+<img width="1500" alt="language_bar" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/language_bar.png" />
 
 ## 月・曜日ごとのコミット数
 
@@ -38,9 +42,9 @@ source("LanguageAnalysis.R")
 source("CommitAnalysis.R")
 ```
 
-<img width="1800" height="900" alt="commits_heatmap" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/commits_by_month_language.png" />
+<img width="1800" alt="commits_heatmap" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/commits_by_month_language.png" />
 
-<img width="2100" height="900" alt="commits_heatmap" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/commits_heatmap.png" />
+<img width="2100" alt="commits_heatmap" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/commits_heatmap.png" />
 
 ## リポジトリの作成数
 
@@ -48,7 +52,7 @@ source("CommitAnalysis.R")
 source("Repoanalysis.R")
 ```
 
-<img width="1800" height="900" alt="repos_by_year" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/repos_by_year.png" />
+<img width="1800" alt="repos_by_year" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/repos_by_year.png" />
 
 ## リポジトリ一覧
 
@@ -65,7 +69,7 @@ source("RepoListExport.R")
 source("TagAnalysis.R")
 ```
 
-<img width="1800" height="900" alt="topics_wordcloud" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/topics_wordcloud.png" />
+<img width="1800" alt="topics_wordcloud" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/topics_wordcloud.png" />
 
 
 
@@ -75,5 +79,5 @@ source("TagAnalysis.R")
 source("IssuesAnalysis.R")
 ```
 
-<img width="1800" height="900" alt="issues_by_month_line" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/issues_by_month_line.png" />
+<img width="1800" alt="issues_by_month_line" src="https://raw.githubusercontent.com/ishi720/GithubDashboard/refs/heads/main/Documents/issues_by_month_line.png" />
 

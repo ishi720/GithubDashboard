@@ -912,6 +912,17 @@
     "language": "CSS"
   },
   {
+    "name": "side_steps",
+    "url": "https://github.com/ishi720/side_steps",
+    "tags": "vue",
+    "description": "反復横跳びのミニゲームです。",
+    "created_at": "2026-08-15T14:36:34Z",
+    "updated_at": "2026-08-16T05:31:21Z",
+    "commit_count": 4,
+    "size_kb": 87,
+    "stars": 0
+  },
+  {
     "name": "solve_sudoku_puzzle",
     "url": "https://github.com/ishi720/solve_sudoku_puzzle",
     "tags": ["heroku", "python", "flask"],
