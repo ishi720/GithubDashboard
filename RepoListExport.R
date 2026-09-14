@@ -111,7 +111,11 @@ get_user_repos_detail <- function(username, include_private = FALSE) {
 
       # スター数（APIから取得済み）
       stars <- if (!is.null(repo$stargazers_count)) repo$stargazers_count else 0
-      cat(" stars:", stars, "\n")
+      cat(" stars:", stars)
+
+      # 主要言語
+      language <- if (!is.null(repo$language)) repo$language else ""
+      cat(" language:", if (nchar(language) > 0) language else "(none)", "\n")
 
       # リポジトリ情報を構築
       repo_info <- list(
@@ -123,7 +127,8 @@ get_user_repos_detail <- function(username, include_private = FALSE) {
         updated_at = repo$updated_at,
         commit_count = commit_count,
         size_kb = repo_size_kb,
-        stars = stars
+        stars = stars,
+        language = language
       )
       
       repos_list[[length(repos_list) + 1]] <- repo_info
@@ -215,6 +220,7 @@ main <- function() {
     cat("    Commits:", repo$commit_count, "\n")
     cat("    Size:", repo$size_kb, "KB\n")
     cat("    Stars:", repo$stars, "\n")
+    cat("    Language:", if (nchar(repo$language) > 0) repo$language else "(none)", "\n")
     cat("    Created:", repo$created_at, "\n")
     cat("    Updated:", repo$updated_at, "\n")
   }
