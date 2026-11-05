@@ -341,9 +341,9 @@
     "tags": ["r", "githubapi"],
     "description": "GitHubユーザーのリポジトリを分析し、可視化するRスクリプトです。",
     "created_at": "2025-12-15T23:07:29Z",
-    "updated_at": "2026-10-26T00:15:02Z",
-    "commit_count": 61,
-    "size_kb": 22762,
+    "updated_at": "2026-11-05T11:29:31Z",
+    "commit_count": 68,
+    "size_kb": 24411,
     "stars": 0,
     "language": "R"
   },
@@ -461,9 +461,9 @@
     "tags": "javascript",
     "description": "JSで作ったキーボードUI",
     "created_at": "2023-08-29T14:59:12Z",
-    "updated_at": "2026-06-20T14:24:22Z",
-    "commit_count": 144,
-    "size_kb": 204,
+    "updated_at": "2026-11-03T23:19:12Z",
+    "commit_count": 146,
+    "size_kb": 216,
     "stars": 1,
     "language": "JavaScript"
   },
@@ -624,6 +624,18 @@
     "language": "CSS"
   },
   {
+    "name": "paper-tear",
+    "url": "https://github.com/ishi720/paper-tear",
+    "tags": ["javacript", "svelte"],
+    "description": "紙を破く",
+    "created_at": "2026-11-04T12:31:39Z",
+    "updated_at": "2026-11-04T22:08:12Z",
+    "commit_count": 2,
+    "size_kb": 29,
+    "stars": 0,
+    "language": "JavaScript"
+  },
+  {
     "name": "pitch-detector",
     "url": "https://github.com/ishi720/pitch-detector",
     "tags": ["javascript", "nextjs", "react"],
@@ -665,9 +677,9 @@
     "tags": ["nustjs", "typescript", "vue"],
     "description": "ishi720のポートフォリオ",
     "created_at": "2024-12-14T15:01:00Z",
-    "updated_at": "2026-11-01T01:59:06Z",
-    "commit_count": 256,
-    "size_kb": 9145,
+    "updated_at": "2026-11-03T01:28:48Z",
+    "commit_count": 259,
+    "size_kb": 11230,
     "stars": 1,
     "language": "TypeScript"
   },
@@ -876,6 +888,18 @@
     "language": "Processing"
   },
   {
+    "name": "shifting-corkboard-viewer",
+    "url": "https://github.com/ishi720/shifting-corkboard-viewer",
+    "tags": ["svelte", "javascript"],
+    "description": "コルクボードで画像や動画のスライドショー",
+    "created_at": "2026-11-01T05:39:20Z",
+    "updated_at": "2026-11-03T00:28:51Z",
+    "commit_count": 33,
+    "size_kb": 118,
+    "stars": 0,
+    "language": "Svelte"
+  },
+  {
     "name": "showUserAgent",
     "url": "https://github.com/ishi720/showUserAgent",
     "tags": [],
@@ -1030,6 +1054,18 @@
     "size_kb": 22,
     "stars": 0,
     "language": "JavaScript"
+  },
+  {
+    "name": "undo-unintended-keymode",
+    "url": "https://github.com/ishi720/undo-unintended-keymode",
+    "tags": ["csharp", "windows-tools"],
+    "description": "Caps LockやIMEの意図しない切り替えを検知して元に戻すWindows常駐ツール",
+    "created_at": "2026-11-03T07:34:13Z",
+    "updated_at": "2026-11-03T08:13:35Z",
+    "commit_count": 2,
+    "size_kb": 15,
+    "stars": 0,
+    "language": "C#"
   },
   {
     "name": "urlParamDisplay",
