@@ -113,8 +113,8 @@
     "tags": ["javascript", "visjs", "bulma", "vue2js", "jest"],
     "description": "コラッツ問題を視覚化します",
     "created_at": "2020-10-13T11:38:49Z",
-    "updated_at": "2026-11-07T23:30:17Z",
-    "commit_count": 122,
+    "updated_at": "2026-11-11T00:47:34Z",
+    "commit_count": 123,
     "size_kb": 1443,
     "stars": 1,
     "language": "JavaScript"
@@ -202,6 +202,30 @@
     "size_kb": 37,
     "stars": 0,
     "language": ""
+  },
+  {
+    "name": "defrag-visualizer",
+    "url": "https://github.com/ishi720/defrag-visualizer",
+    "tags": "alpinejs",
+    "description": "ディスクの断片化と、デフラグで並べ直す様子をブラウザで見える化するツールです。",
+    "created_at": "2026-11-19T22:49:56Z",
+    "updated_at": "2026-11-20T01:27:14Z",
+    "commit_count": 3,
+    "size_kb": 21,
+    "stars": 0,
+    "language": "JavaScript"
+  },
+  {
+    "name": "dot-motion-illusion",
+    "url": "https://github.com/ishi720/dot-motion-illusion",
+    "tags": [],
+    "description": "",
+    "created_at": "2026-11-18T11:51:33Z",
+    "updated_at": "2026-11-19T20:52:40Z",
+    "commit_count": 1,
+    "size_kb": 7,
+    "stars": 0,
+    "language": "JavaScript"
   },
   {
     "name": "draw_shapes",
@@ -294,8 +318,8 @@
     "description": "igo-phpを利用して、小学生の習得漢字以外をひらがなに変換",
     "created_at": "2023-10-22T02:22:59Z",
     "updated_at": "2025-09-27T03:24:41Z",
-    "commit_count": 9,
-    "size_kb": 18,
+    "commit_count": 13,
+    "size_kb": 25,
     "stars": 0,
     "language": "PHP"
   },
@@ -341,9 +365,9 @@
     "tags": ["r", "githubapi"],
     "description": "GitHubユーザーのリポジトリを分析し、可視化するRスクリプトです。",
     "created_at": "2025-12-15T23:07:29Z",
-    "updated_at": "2026-11-05T11:34:37Z",
-    "commit_count": 69,
-    "size_kb": 26025,
+    "updated_at": "2026-11-09T03:35:34Z",
+    "commit_count": 70,
+    "size_kb": 27187,
     "stars": 0,
     "language": "R"
   },
@@ -408,6 +432,18 @@
     "language": "Vue"
   },
   {
+    "name": "hp-bar-simulator",
+    "url": "https://github.com/ishi720/hp-bar-simulator",
+    "tags": ["javascript", "svelte5"],
+    "description": "HPバー動作のシミュレーターです",
+    "created_at": "2026-11-15T02:52:33Z",
+    "updated_at": "2026-11-15T03:30:14Z",
+    "commit_count": 2,
+    "size_kb": 30,
+    "stars": 0,
+    "language": "Svelte"
+  },
+  {
     "name": "img-crop",
     "url": "https://github.com/ishi720/img-crop",
     "tags": "php",
@@ -418,6 +454,18 @@
     "size_kb": 9,
     "stars": 0,
     "language": "PHP"
+  },
+  {
+    "name": "input-pedometer",
+    "url": "https://github.com/ishi720/input-pedometer",
+    "tags": "csharp",
+    "description": "キーボードやマウス操作の万歩計",
+    "created_at": "2026-11-13T23:59:26Z",
+    "updated_at": "2026-11-14T20:58:02Z",
+    "commit_count": 10,
+    "size_kb": 20,
+    "stars": 0,
+    "language": "C#"
   },
   {
     "name": "ishi720",
@@ -454,6 +502,18 @@
     "size_kb": 11,
     "stars": 1,
     "language": "HTML"
+  },
+  {
+    "name": "kaprekar-6-9-swap",
+    "url": "https://github.com/ishi720/kaprekar-6-9-swap",
+    "tags": "python3",
+    "description": "カプレカの操作を6と9を逆さまにしてよいルールで実装",
+    "created_at": "2026-11-16T12:21:12Z",
+    "updated_at": "2026-11-16T14:00:13Z",
+    "commit_count": 2,
+    "size_kb": 2,
+    "stars": 0,
+    "language": "Python"
   },
   {
     "name": "keyboardUI",
@@ -498,8 +558,8 @@
     "description": "決められた単語で一番長く繋がるしりとりパターンを探索する",
     "created_at": "2025-12-03T11:13:35Z",
     "updated_at": "2025-12-06T11:17:28Z",
-    "commit_count": 3,
-    "size_kb": 3,
+    "commit_count": 10,
+    "size_kb": 19,
     "stars": 0,
     "language": "Python"
   },
@@ -593,9 +653,9 @@
     "tags": "python3",
     "description": "note.com の記事を HTML ファイルとして GitHub にバックアップするスクリプト",
     "created_at": "2026-05-26T14:58:47Z",
-    "updated_at": "2026-11-07T19:16:54Z",
-    "commit_count": 47,
-    "size_kb": 372,
+    "updated_at": "2026-11-09T23:43:07Z",
+    "commit_count": 49,
+    "size_kb": 375,
     "stars": 0,
     "language": "HTML"
   },
@@ -629,11 +689,23 @@
     "tags": ["javacript", "svelte"],
     "description": "紙を破く",
     "created_at": "2026-11-04T12:31:39Z",
-    "updated_at": "2026-11-08T05:11:51Z",
-    "commit_count": 10,
-    "size_kb": 83,
-    "stars": 0,
+    "updated_at": "2026-11-12T03:19:43Z",
+    "commit_count": 14,
+    "size_kb": 102,
+    "stars": 1,
     "language": "JavaScript"
+  },
+  {
+    "name": "pharmacy-hospital-distance",
+    "url": "https://github.com/ishi720/pharmacy-hospital-distance",
+    "tags": "typescript",
+    "description": "東京の薬局と最寄りの病院・診療所の距離を地図で見るツールです",
+    "created_at": "2026-11-22T10:52:02Z",
+    "updated_at": "2026-11-23T00:28:06Z",
+    "commit_count": 6,
+    "size_kb": 1262,
+    "stars": 0,
+    "language": "TypeScript"
   },
   {
     "name": "pitch-detector",
@@ -677,9 +749,9 @@
     "tags": ["nustjs", "typescript", "vue"],
     "description": "ishi720のポートフォリオ",
     "created_at": "2024-12-14T15:01:00Z",
-    "updated_at": "2026-11-09T00:18:19Z",
-    "commit_count": 268,
-    "size_kb": 12086,
+    "updated_at": "2026-11-11T22:49:27Z",
+    "commit_count": 280,
+    "size_kb": 12118,
     "stars": 1,
     "language": "TypeScript"
   },
@@ -690,8 +762,8 @@
     "description": "Qiita CLIでQiita記事を保管",
     "created_at": "2024-11-25T12:03:14Z",
     "updated_at": "2026-10-21T05:47:18Z",
-    "commit_count": 48,
-    "size_kb": 333,
+    "commit_count": 49,
+    "size_kb": 343,
     "stars": 0,
     "language": ""
   },
@@ -756,18 +828,6 @@
     "language": "Python"
   },
   {
-    "name": "rangeOCR",
-    "url": "https://github.com/ishi720/rangeOCR",
-    "tags": ["javascript", "ocr", "pdfjs-dist", "tesseract"],
-    "description": "",
-    "created_at": "2023-06-01T13:07:04Z",
-    "updated_at": "2025-12-28T02:11:20Z",
-    "commit_count": 26,
-    "size_kb": 108,
-    "stars": 0,
-    "language": "JavaScript"
-  },
-  {
     "name": "regex-challenge",
     "url": "https://github.com/ishi720/regex-challenge",
     "tags": ["react", "typescript", "vite", "express", "mysql"],
@@ -804,6 +864,18 @@
     "language": "JavaScript"
   },
   {
+    "name": "relatime",
+    "url": "https://github.com/ishi720/relatime",
+    "tags": [],
+    "description": "時系列管理できる相関図",
+    "created_at": "2026-11-16T23:53:27Z",
+    "updated_at": "2026-11-17T13:41:48Z",
+    "commit_count": 2,
+    "size_kb": 109,
+    "stars": 0,
+    "language": "TypeScript"
+  },
+  {
     "name": "ReuleauxPhysics",
     "url": "https://github.com/ishi720/ReuleauxPhysics",
     "tags": "javascript",
@@ -834,8 +906,8 @@
     "description": "ラバーペンシル現象をWebで再現",
     "created_at": "2025-12-07T01:28:07Z",
     "updated_at": "2026-08-09T12:44:31Z",
-    "commit_count": 8,
-    "size_kb": 10,
+    "commit_count": 10,
+    "size_kb": 12,
     "stars": 0,
     "language": "JavaScript"
   },
@@ -893,9 +965,9 @@
     "tags": ["svelte", "javascript", "indexeddb"],
     "description": "コルクボードで画像や動画のスライドショー",
     "created_at": "2026-11-01T05:39:20Z",
-    "updated_at": "2026-11-06T11:56:12Z",
-    "commit_count": 35,
-    "size_kb": 129,
+    "updated_at": "2026-11-10T12:39:47Z",
+    "commit_count": 43,
+    "size_kb": 172,
     "stars": 0,
     "language": "Svelte"
   },
@@ -1025,9 +1097,9 @@
     "tags": ["nuxtjs", "typescript", "vue"],
     "description": "技術情報をまとめたカタログサイトです。",
     "created_at": "2026-01-02T12:08:18Z",
-    "updated_at": "2026-10-22T12:05:28Z",
-    "commit_count": 53,
-    "size_kb": 407,
+    "updated_at": "2026-11-10T12:54:56Z",
+    "commit_count": 54,
+    "size_kb": 408,
     "stars": 0,
     "language": "TypeScript"
   },
@@ -1062,8 +1134,8 @@
     "description": "Caps LockやIMEの意図しない切り替えを検知して元に戻すWindows常駐ツール",
     "created_at": "2026-11-03T07:34:13Z",
     "updated_at": "2026-11-03T08:13:35Z",
-    "commit_count": 2,
-    "size_kb": 15,
+    "commit_count": 3,
+    "size_kb": 18,
     "stars": 0,
     "language": "C#"
   },
@@ -1078,6 +1150,18 @@
     "size_kb": 0,
     "stars": 0,
     "language": "PHP"
+  },
+  {
+    "name": "vscode-mirror-text",
+    "url": "https://github.com/ishi720/vscode-mirror-text",
+    "tags": ["javascript", "vscode-extension"],
+    "description": "VS Codeのエディタの文字を鏡文字にする拡張機能です",
+    "created_at": "2026-11-21T12:20:09Z",
+    "updated_at": "2026-11-21T14:05:30Z",
+    "commit_count": 4,
+    "size_kb": 14,
+    "stars": 0,
+    "language": "JavaScript"
   },
   {
     "name": "vscode_my_snippet",
